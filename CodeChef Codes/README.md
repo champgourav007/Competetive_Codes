@@ -1,5 +1,3 @@
-# This Folder Contains the CodeChef Codes
-
-## HELLO EVERYONE
+# This Folder Contains the CodeChef Code
 
 Codechef Codes!!!!!!!
