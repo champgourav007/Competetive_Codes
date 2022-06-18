@@ -10,7 +10,6 @@ for _ in range(t):
     n2 = int(d[0])
     for i in d[1:]:
         dislikes.append(i)
-# print(likes)
 for i in dislikes:
     if len(i) != 0:
         count = likes.count(i)
