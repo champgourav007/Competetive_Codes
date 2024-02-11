@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table, th, td {
+            border: 1px solid;
+        }
+        td{
+            padding: 1rem;
+        }
+
+    </style>
+</head>
+<body>
+    <label for="startDate">Start Date</label>
+    <input type="date" name="startDate" id="startDate">
+
+    <label for="startTime">Start Time</label>
+    <input type="time" name="startTime" id="startTime">
+
+    <label for="endDate">End Date</label>
+    <input type="date" name="endDate" id="endDate">
+
+    <label for="endTime">end Time</label>
+    <input type="time" name="endTime" id="endTime">
+
+    <label for="interval">Interval</label>
+    <input type="number" name="interval" id="interval" min="0" max="60">
+
+    <label for="timezone">Time Zone</label>
+    <input type="text" name="timezone" id="timezone">
+
+    <button id="button">Evaluate</button>
+
+    <div>
+        <p>Result</p>
+        <table id="result">
+
+        </table>
+    </div>
+
+    <script>
+        var intervalNode = document.getElementById("interval");
+        var startDateNode = document.getElementById("startDate");
+        var startTimeNode = document.getElementById("startTime");
+        var endDateNode = document.getElementById("endDate");
+        var endTimeNode = document.getElementById("endTime");
+        var buttonNode = document.getElementById('button');
+        var resultNode = document.getElementById('result');
+        var timezoneNode = document.getElementById('timezone');
+
+        buttonNode.addEventListener('click', function(){
+            resultNode.innerHTML = "";
+            var intervalValue = intervalNode.value;
+            var startDateValue = startDateNode.valueAsDate;
+            var startTimeValue = startTimeNode.value.split(':');
+            var endDateValue = endDateNode.valueAsDate;
+            var endTimeValue = endTimeNode.value.split(':');
+            console.log(startDateValue.getFullYear(), startTimeValue)
+            var remTime = parseInt(endTimeValue) - parseInt(startTimeValue)
+            startDateValue.setHours(parseInt(startTimeValue[0]));
+            startDateValue.setMinutes(parseInt(startTimeValue[1]));
+            startDateValue.setDate(parseInt(startDateValue.getDate())+1)
+
+            endDateValue.setHours(parseInt(endTimeValue[0]));
+            endDateValue.setMinutes(parseInt(endTimeValue[1]));
+            endDateValue.setDate(parseInt(endDateValue.getDate()) + 1)
+
+            console.log(startDateValue, endDateValue);
+            while(startDateValue <= endDateValue){
+                var month1 =  (parseInt(startDateValue.getMonth())+1).toString();
+                
+                if(month1.length == 1){
+                    month1 = '0'+ month1
+                }
+
+                var date1 = startDateValue.getDate();
+                if (date1 < 10) {
+                    date1 = '0' + date1.toString()
+                }
+
+                var time = 
+                console.log(startDateValue.getMonth());
+                var date1 = startDateValue.getFullYear() + "-" + month1 + "-" + date1 + "T" + startDateValue.toLocaleTimeString('it-IT').replace('AM', '').replace('PM', '') + timezoneNode.value;
+
+                startDateValue.setMinutes(startDateValue.getMinutes() + parseInt(intervalValue));
+
+                var month2 = (parseInt(startDateValue.getMonth()) + 1).toString();
+                if (month2.length == 1) {
+                    month2 = '0' + month2
+                }
+
+                var date2 = startDateValue.getDate();
+                if (date2 < 10) {
+                    date2 = '0' + date2.toString();
+                }
+                var date2 = startDateValue.getFullYear() + "-" + month2 + "-" + date2 + "T" + startDateValue.toLocaleTimeString('it-IT').replace('AM', '').replace('PM', '') + timezoneNode.value;
+                resultNode.appendChild(createResult(date1 , date2));
+            }
+        })
+
+        function createResult(data1, data2){
+            data1 = data1.replace(",","T").replace(" ","");
+            data2 = data2.replace(",", "T").replace(" ", "");
+            var tr = document.createElement('tr');
+            var td1 = document.createElement('td');
+            td1.innerHTML = data1;
+            var td2 = document.createElement('td');
+            td2.innerHTML = data2;
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            return tr;
+        }
+    </script>
+</body>
+</html>
